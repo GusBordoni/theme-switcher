@@ -6,27 +6,46 @@ const gText = document.getElementById('greetings-text');
 function switchTheme() {
     if(bgColor.classList.contains('light')) {
         gText.style.color = "var(--light)";
-        gText.getElementsByTagName('span')[0].textContent = "Good night!";
+        changeText();
         switchButton.style.transform = "translate(20px, -30px)";
         bgColor.classList.remove('light')
         bgColor.classList.add('dark');
     } else {
         switchButton.style.transform = "translate(-20px, -30px)";
         gText.style.color = "var(--dark)";
-        gText.getElementsByTagName('span')[0].textContent = "Good day!";
+        changeText();
         bgColor.classList.remove('dark')
         bgColor.classList.add('light');
     }
 };
 
-/* function animateText() {
-    if(gText.classList.contains('animate-text')) {
-        gText.classList.remove('animate-text');
-    } else {
-        gText.classList.add('animate-text');
-    };
-}; */
 
-function animateText() {
-    gText.classList.toggle('animate');
+function changeText() {
+  let dur = 250;
+  let animation = gText.animate([
+        { opacity: '1' },
+        { opacity: '0' }
+        ], { 
+        duration: dur,
+        });
+      
+      animation.onfinish = function() {
+        if(gText.textContent.includes('Good day!')) {
+          gText.textContent = "Good night!";
+          gText.animate([
+        { opacity: '0' },
+        { opacity: '1' }
+      ], { 
+        duration: dur,
+      });
+        } else if(gText.textContent.includes('Good night!')) {
+          gText.textContent = "Good day!";
+          gText.animate([
+        { opacity: '0' },
+        { opacity: '1' }
+      ], { 
+        duration: dur,
+      });
+        }
+      };
 }
